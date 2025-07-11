@@ -1,0 +1,41 @@
+databases:
+  - name: telefeed-database
+    databaseName: telefeed_db
+    user: telefeed_user
+    plan: free
+    region: oregon
+    postgresMajorVersion: 16
+
+services:
+  - type: worker
+    name: telefeed-bot-render
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main_render_fixed.py
+    envVars:
+      - key: API_ID
+        value: 29177661
+      - key: API_HASH
+        value: a8639172fa8d35dbfd8ea46286d349ab
+      - key: BOT_TOKEN
+        value: 8168829272:AAEdBli_8E0Du_uHVTGLRLCN6KV7Gwox0WQ
+      - key: ADMIN_ID
+        value: 1190237801
+      - key: RENDER_DEPLOYMENT
+        value: true
+      - key: REPLIT_URL
+        value: https://telefeed-bot.kouamappoloak.repl.co
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: telefeed-database
+          property: connectionString
+    plan: free
+    region: oregon
+    branch: main
+    rootDir: .
+    scaling:
+      numInstances: 1
+      minInstances: 1
+      maxInstances: 1
